@@ -37,8 +37,13 @@ int main(int argc, char* argv[]) {
 	weights_hidden_output(1, 0) = -1.0;
 	weights_hidden_output(1, 1) = 1.0;
 
-	RHMMUH005::NeuralNetwork neuralNetworkObj(input, weights_input_hidden, weights_hidden_output);
-	neuralNetworkObj.feedForward();
+	MatrixXd targets(2, 1);
+
+	targets(0, 0) = 1.0;
+	targets(1, 0) = 0.0;
+
+	RHMMUH005::NeuralNetwork neuralNetworkObj(input, weights_input_hidden, weights_hidden_output, targets);
+	neuralNetworkObj.train();
 
 	cout << "Running process" << endl;
 

@@ -19,11 +19,15 @@ namespace RHMMUH005 {
 			MatrixXd weights_input_hidden;
 			MatrixXd weights_hidden_output;
 
+			MatrixXd targets;
+
 		public:
 			NeuralNetwork();
-			NeuralNetwork(MatrixXd, MatrixXd, MatrixXd);
+			NeuralNetwork(MatrixXd, MatrixXd, MatrixXd, MatrixXd);
 
-			void feedForward();
+			void train();
+
+			MatrixXd feedForward(MatrixXd);
 
 			double sigmoid(double);
 

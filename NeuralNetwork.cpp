@@ -64,16 +64,32 @@ namespace RHMMUH005
 		}
 
 		output_file << "Error for output node 1: " << output_errors(0, 0) << endl;
-		output_file << "Error for output node 2: " << output_errors(1, 0) << endl;
+		output_file << "Error for output node 2: " << output_errors(1, 0) << endl << endl;
 
 		cout << "Error for output node 1: " << output_errors(0, 0) << endl;
-		cout << "Error for output node 2: " << output_errors(1, 0) << endl;
+		cout << "Error for output node 2: " << output_errors(1, 0) << endl << endl;
+
+		MatrixXd delta_weight_hidden_output = 0.1 * output_errors.transpose() * hidden_mat;
+		cout << "delta weight hidden and output is: " << delta_weight_hidden_output << endl << endl;
+
 
 		MatrixXd hidden_errors(2, 1);
 
 		MatrixXd weights_hidden_output_transposed = weights_hidden_output.transpose();
 
-		MatrixXd hidden_errors = weights_hidden_output_transposed * output_errors;
+		MatrixXd temp = weights_hidden_output_transposed * output_errors;
+
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 1; j++) {
+				hidden_errors(i, j) = hidden(i, j) * (1 - hidden(i, j)) * temp(i, 0);
+			}
+		}
+
+		output_file << "Error for hidden node 1: " << hidden_errors(0, 0) << endl;
+		output_file << "Error for hidden node 2: " << hidden_errors(1, 0) << endl << endl;
+
+		cout << "Error for hidden node 1: " << hidden_errors(0, 0) << endl;
+		cout << "Error for hidden node 2: " << hidden_errors(1, 0) << endl << endl;
 	}
 
 	MatrixXd NeuralNetwork::feedForward(MatrixXd input_values) {

@@ -39,6 +39,9 @@ namespace RHMMUH005
 		output_file << "Hidden neuron 1: " << hidden(0, 0) << endl;
 		output_file << "Hidden neuron 2: " << hidden(1, 0) << endl << endl;
 
+		cout << "Hidden neuron 1: " << hidden(0, 0) << endl;
+		cout << "Hidden neuron 2: " << hidden(1, 0) << endl << endl;
+
 		MatrixXd output_mat = weights_hidden_output * hidden;
 		output_mat(0, 0) = sigmoid(output_mat(0, 0));
 		output_mat(1, 0) = sigmoid(output_mat(1, 0));
@@ -46,23 +49,31 @@ namespace RHMMUH005
 		output_file << "Output neuron 1: " << output_mat(0, 0) << endl;
 		output_file << "Output neuron 2: " << output_mat(1, 0) << endl << endl;
 
-		output_file << "The MSE is: " << mse(output_mat(0, 0)) << endl;
+		cout << "Output neuron 1: " << output_mat(0, 0) << endl;
+		cout << "Output neuron 2: " << output_mat(1, 0) << endl << endl;
 
-		MatrixXd output_errors = targets - output_mat;
+		//output_file << "The MSE is: " << mse(output_mat(0, 0)) << endl;
 
-		//MatrixXd output_errors(2, 1);
-		//output_errors(0, 0) = 0.5 * (targets(0, 0) - output_mat(0, 0)) * (targets(0, 0) - output_mat(0, 0));
-		//output_errors(1, 0) = 0.5 * (targets(1, 0) - output_mat(1, 0)) * (targets(1, 0) - output_mat(1, 0));
+		MatrixXd output_errors(2, 1);
 
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; j < 1; j++) {
+				output_errors(i, j) = output_mat(i, j) * (1 - output_mat(i, j)) * (targets(i, j) - output_mat(i, j));
+				//cout << output_errors(i, j) << endl;
+			}
+		}
 
+		output_file << "Error for output node 1: " << output_errors(0, 0) << endl;
+		output_file << "Error for output node 2: " << output_errors(1, 0) << endl;
 
+		cout << "Error for output node 1: " << output_errors(0, 0) << endl;
+		cout << "Error for output node 2: " << output_errors(1, 0) << endl;
 
+		MatrixXd hidden_errors(2, 1);
 
 		MatrixXd weights_hidden_output_transposed = weights_hidden_output.transpose();
 
 		MatrixXd hidden_errors = weights_hidden_output_transposed * output_errors;
-
-		cout << output_errors << endl;
 	}
 
 	MatrixXd NeuralNetwork::feedForward(MatrixXd input_values) {

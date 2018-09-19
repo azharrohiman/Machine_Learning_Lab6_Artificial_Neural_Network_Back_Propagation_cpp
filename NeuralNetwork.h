@@ -27,11 +27,7 @@ namespace RHMMUH005 {
 
 			void train();
 
-			MatrixXd feedForward(MatrixXd);
-
 			double sigmoid(double);
-
-			double mse(double);
 
 	};
 }

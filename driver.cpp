@@ -45,7 +45,5 @@ int main(int argc, char* argv[]) {
 	RHMMUH005::NeuralNetwork neuralNetworkObj(input, weights_input_hidden, weights_hidden_output, targets);
 	neuralNetworkObj.train();
 
-	cout << "Running process" << endl;
-
 	return 0;
 }

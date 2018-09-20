@@ -65,15 +65,7 @@ namespace RHMMUH005
 		cout << "Error for output node 1: " << output_errors(0, 0) << endl;
 		cout << "Error for output node 2: " << output_errors(1, 0) << endl << endl;
 
-		MatrixXd output_mat_derivative(2, 1);
-
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 1; j++) {
-				output_mat_derivative(i, j) = output_mat(i, j) * (1 - output_mat(i, j));
-			}
-		}
-
-		MatrixXd delta_weight_hidden_output = 0.1 * (output_errors.cwiseProduct(output_mat_derivative)) * hidden.transpose();
+		MatrixXd delta_weight_hidden_output = 0.1 * output_errors * hidden.transpose();
 
 		MatrixXd new_weights_hidden_output = weights_hidden_output + delta_weight_hidden_output;
 
@@ -107,15 +99,7 @@ namespace RHMMUH005
 		cout << "Error for hidden node 1: " << hidden_errors(0, 0) << endl;
 		cout << "Error for hidden node 2: " << hidden_errors(1, 0) << endl << endl;
 
-		MatrixXd hidden_derivative(2, 1);
-
-		for (int i = 0; i < 2; i++) {
-			for (int j = 0; j < 1; j++) {
-				hidden_derivative(i, j) = hidden(i, j) * (1 - hidden(i, j));
-			}
-		}
-
-		MatrixXd delta_weight_input_hidden = 0.1 * (hidden_errors.cwiseProduct(hidden_derivative)) * inputs.transpose();
+		MatrixXd delta_weight_input_hidden = 0.1 * hidden_errors * inputs.transpose();
 
 		MatrixXd new_weights_input_hidden = weights_input_hidden + delta_weight_input_hidden;
 
